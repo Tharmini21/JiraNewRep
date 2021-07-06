@@ -1,0 +1,85 @@
+"providerTabs": [
+      {
+        "type": "SETTINGS",
+        "text": "Setup",
+        "enable": "hasAgreed || isRegistered",
+        "nextTab": 1,
+        "default": "hasAgreed",
+        "saveBtn": false,
+        "params": [
+          "app"
+        ]
+      },
+      {
+        "type": "OAUTH2",
+        "saveBtn": false,
+        "enable": "isRegistered",
+        "default": "isRegistered",
+        "nextTab": 2
+      },
+      {
+        "type": "SETTINGS",
+        "enable": "isAuthorized",
+        "nextTab": true,
+        "default": "isAuthorized",
+        "params": [
+          "oauth"
+        ]
+      }
+    ]
+  },
+  "providerData": [
+    {
+      "param": "app",
+      "displayName": "Connected App",
+      "description": "The details of the connected app to be used for authentication. If you do not supply this information then the default converse app will be used.",
+      "type": "PARAM",
+      "optional": false,
+      "valueParams": [
+        {
+          "param": "client_id",
+          "displayName": "Client Id",
+          "description": "The client id of the connected app",
+          "type": "STRING",
+          "optional": false
+        },
+        {
+          "param": "client_secret",
+          "displayName": "Client Secret",
+          "description": "The client secret of the connected app",
+          "type": "PASSWORD",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "param": "oauth",
+      "displayName": "OAuth Callback",
+      "description": "Settings for customising the OAuth process for the end user.",
+      "type": "PARAM",
+      "optional": true,
+      "valueParams": [
+        {
+          "param": "start_message",
+          "displayName": "Message",
+          "description": "Message to be displayed along with the OAuth redirect link when asking the user to start the OAuth process",
+          "type": "STRING",
+          "optional": true
+        },
+        {
+          "param": "redirect_url",
+          "displayName": "Redirect Url",
+          "description": "A URl to redirect the user to after OAuth callback",
+          "type": "STRING",
+          "optional": true
+        },
+        {
+          "param": "redirect_message",
+          "displayName": "Redirect Message",
+          "description": "A message to display after OAuth callback to inform them to return to the conversation",
+          "type": "STRING",
+          "optional": true
+        }
+      ]
+    }
+  ],

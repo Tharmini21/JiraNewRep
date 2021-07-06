@@ -1,0 +1,215 @@
+const request     = require('supertest');
+const expect      = require('chai').expect;
+const server      = require('./lib/express');
+// const express=require("express");
+// const app=express();
+var JiraClient  = require("jira-connector");
+
+
+describe('Print Jira Issue Creation', function () {
+  
+var jira=new JiraClient({
+  // host:"jirasoft123.atlassian.net/rest/api/3/issue/",
+  host:"jirasoft123.atlassian.net",
+  basic_auth:{
+      username:"tharmini@cloudwaveinc.com",
+      password:"mw4GbOaPbCNaTVOL4iJECBCB",
+  },
+  strictSSL:false,
+});
+//const fetch = require('node-fetch');
+const bodyData = {
+  fields: {
+    project:
+    {
+       key: "TES"
+    },
+    summary: "REST Api Test via Nodejs.",
+    description:"This Description created via nodejs using jira-connector",
+    issuetype: {
+       name: "Bug"
+    }
+}
+};
+
+// describe('JiraIssue.objectContaining', function() {
+//   it('has these properties', function() {
+//     var props = [
+//       'projectkey',
+//       'summary',
+//       'description',
+//       'issuetype',
+//     ];
+//     beforeEach(function() {
+//       props = {
+//         projectkey: "",
+//         summary: "",
+//         description: "",
+//         issuetype: ""
+//       };
+//     });
+//     // props.forEach(function(prop){
+//     //  // expect().toBeTruthy();
+//     //   expect(prop).to.be.an('object').prop.toBeTruthy();
+//     // })
+//   });
+// });
+
+// fetch('jirasoft123.atlassian.net', {
+//   method: 'POST',
+//   headers: {
+//     'Authorization': `Basic ${Buffer.from(
+//       "tharmini@cloudwaveinc.com:mw4GbOaPbCNaTVOL4iJECBCB",
+//       //'email@example.com:<api_token>'
+//     ).toString('base64')}`,
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   },
+//   body: bodyData,
+//     event: 'MODULE_EXEC',
+//     payload: {
+//       moduleId: 'jiracreateissue',
+//       moduleParam: {
+//       },
+//       registrationData: {
+//       }
+//     }
+// })
+//   .then(response => {
+//     console.log(
+//       `Response: ${response.status} ${response.statusText}`
+//     );
+//     return response.text();
+//   })
+//   .then(text => console.log(text))
+//   .catch(err => console.error(err));
+// app.post("/", (req,res)=>{
+//   res.send("Started new nodejs project.");
+//   jira.issue.createissue({
+//       fields: {
+//           project:
+//           {
+//              key: "TES"
+//           },
+//           summary: "REST Api Test via Nodejs.",
+//           description: "Creating of an issue using project keys and issue type names using the REST API",
+//           issuetype: {
+//              name: "Bug"
+//           }
+//       },
+//       function(error,issue){
+//           console.log("error",error);
+//           console.log("issue",issue);
+//       },
+//   });
+// });
+
+  it('base', function(done) {
+    request(server)
+      .post('/')
+      .type('json')
+      .send({
+        event: 'MODULE_EXEC',
+        payload: {
+          moduleId: 'jiracreateissue',
+          moduleParam: {
+            body:bodyData
+          },
+          registrationData: {
+          }
+        }
+      })
+      .set('X_CONVERSE_APP_TOKEN', require('../app-token'))
+      .expect(200)
+      .end(function(err, res) {
+        console.log("error",err);
+        console.log("res",res);
+        const { body } = res;
+        expect(body).to.be.an('object');
+        expect(body.status).to.be.equals(0);
+        //expect(res.body).to.have.property('status').to.equal(0);
+        done();
+      });
+  })
+
+  it('JiraIssue', function(done) {
+    request(server)
+      .post('/')
+      .type('json')
+      .send({
+        event: 'MODULE_EXEC',
+        payload: {
+          moduleId: 'jiracreateissue',
+          moduleParam: {
+            body:bodyData
+          },
+          registrationData: {
+          }
+        }
+      })
+      .set('X_CONVERSE_APP_TOKEN', require('../app-token'))
+      .expect(200)
+      .end(function(err, res) {
+        console.log("error",err);
+        console.log("res",res);
+        const { body } = res;
+        expect(body).to.be.an('object');
+        expect(body.status).to.be.equals(0);
+        // expect(res.body).to.have.property('status').to.equal(0);
+        // expect(res.body).to.have.property('comment').be.an('array').that.does.include('Jiratest');
+        done();
+      });
+  })
+
+});
+describe('Jira Get Issue', function () {
+
+  it('base', function(done) {
+    request(server)
+      .get('/')
+      .send({
+        event: 'MODULE_EXEC',
+        payload: {
+          moduleId: 'jiragetissue',
+          moduleParam: {
+          },
+          registrationData: {
+          }
+        }
+      })
+      .set('X_CONVERSE_APP_TOKEN', require('../app-token'))
+      .expect(200)
+      .end(function(err, res) {
+        console.log("error",err);
+        console.log("res",res);
+        //expect(res.body).to.have.property('status').to.equal(0);
+        done();
+      });
+  })
+
+  it('JiraGetissue', function(done) {
+    request(server)
+      .post('/')
+      .send({
+        event: 'MODULE_EXEC',
+        payload: {
+          moduleId: 'jiragetissue',
+          moduleParam: {
+           
+          },
+          registrationData: {
+          }
+        }
+      })
+      .set('X_CONVERSE_APP_TOKEN', require('../app-token'))
+      .expect(200)
+      .end(function(err, res) {
+        console.log("error",err);
+        console.log("res",res);
+        //expect(res.body).to.have.property('status').to.equal(0);
+       // expect(res.body).to.have.property('comment').be.an('array').that.does.include('Hello, World!');
+        done();
+      });
+  })
+
+})

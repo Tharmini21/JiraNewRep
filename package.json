@@ -1,0 +1,23 @@
+{
+  "name": "jiracreateissue",
+  "description": "jira create issue plugin for Converse.AI.",
+  "main": "plugin.js",
+  "scripts": {
+    "test": "mocha test/plugin-test.js test/**/*-test.js"
+  },
+  "dependencies": {
+    "@converseai/plugins-sdk": "^1.0.5",
+    "@types/axios": "^0.14.0",
+    "maven": "^5.0.0",
+    "mvn": "^3.5.0",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "mocha": "^4.0.1",
+    "supertest": "latest"
+  },
+  "author": "graeme@converse.ai"
+}
