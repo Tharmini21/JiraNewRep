@@ -23,7 +23,6 @@ var onOAuthStart = function(app, body) {
   var app = body.payload.registrationData.app;
   // app.client_id = "JnZngY1dNSdA6UzlgbuvplTodLff5G6F";
   // app.client_secret = "Oa2YJOrNQQSEOWyG3X8tmXy3BVMbESuQWH3WV6gIUe-XcrO8neOTt8ztXu677bzj";
-  
   //  var oauth2Uri = "https://auth.atlassian.com/oauth/token";
   var oauth2Uri = "https://api.atlassian.com/oauth2/authorize";
    var registrationData = body.payload.registrationData;
