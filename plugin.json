@@ -32,39 +32,21 @@
           "param": "accesstoken",
           "displayName": "OAuth2 Token Access",
           "description": "OAuth2 Token of the Jira App.",
-          "type": "STRING",
-          "value": [
-            {
-              "label": "OAuth2 Token Access",
-              "value": "JnZngY1dNSdA6UzlgbuvplTodLff5G6F"
-            }
-          ]
+          "type": "STRING"
         },
         {
           "param": "client_id",
           "displayName": "Client Id",
           "description": "The client id of the connected app",
           "type": "STRING",
-          "optional": false,
-          "value": [
-            {
-              "label": "Client Id",
-              "value": "JnZngY1dNSdA6UzlgbuvplTodLff5G6F"
-            }
-          ]
+          "optional": false
         },
         {
           "param": "client_secret",
           "displayName": "Client Secret",
           "description": "The client secret of the connected app",
           "type": "STRING",
-          "optional": false,
-          "value": [
-            {
-              "label": "Client Secret",
-              "value": "Oa2YJOrNQQSEOWyG3X8tmXy3BVMbESuQWH3WV6gIUe-XcrO8neOTt8ztXu677bzj"
-            }
-          ]
+          "optional": false
         }
       ]
     }
