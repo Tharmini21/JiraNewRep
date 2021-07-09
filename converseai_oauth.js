@@ -30,7 +30,7 @@ var onOAuthStart = function(app, body) {
   response.setState("");
   response.setComment('<div>' +
     '<p>To link this workspace with a specific jira account, authenticate with the account.</p>' +
-    '<p><cv-button cv-click="authenticate()">Authenticate</cv-button></p></div>');
+    '<p><cv-button cv-click="oauthUtil.authenticate()">Authenticate</cv-button></p></div>');
     response.setExtraParams(null);
  // response.response_type("code");
  // response.prompt("consent");
@@ -61,6 +61,9 @@ var onOAuthHandleCode = function(app, body) {
       response.setGrantType("authorization_code");
       response.setMessage("Authentication successful");
       app.send(Status.SUCCESS, response);
+      app.client_id=clientId;
+      app.client_secret=registrationData.client_secret;
+      app.access_token=data.access_token;
     })
     .catch(error => {
       errorHandler.handleError(error, app);

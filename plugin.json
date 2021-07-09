@@ -9,10 +9,17 @@
   "uiSpec": {
     "providerTabs": [
       {
+        "type": "OAUTH2",
+        "saveBtn": false,
+        "enable": "isRegistered",
+        "default": "isRegistered",
+        "nextTab": 1
+      },
+      {
         "type": "SETTINGS",
         "text": "Setup",
         "enable": "hasAgreed || isRegistered",
-        "nextTab": 1,
+        "nextTab": 2,
         "default": "hasAgreed",
         "params": [
           "app"
@@ -98,6 +105,20 @@
           "param": "Description",
           "displayName": "Description",
           "description": "description of the issue.",
+          "type": "STRING"
+        }
+      ]
+    },
+    {
+      "id": "jiragetissue",
+      "name": "Get Jira Issue",
+      "description": "This module will get issue in Jira.",
+      "hasReturn": false,
+      "param": [
+        {
+          "param": "issueIdOrKey",
+          "displayName": "Issue Id",
+          "description": "Key of the Issue.",
           "type": "STRING"
         }
       ]

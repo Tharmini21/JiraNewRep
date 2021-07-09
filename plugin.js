@@ -46,7 +46,8 @@ exports.cloudwave_jiracreateissue = function (request, response) {
     app.setOnOAuthRenewToken(OAuth.onOAuthRenewToken);
 
     app.setModules({
-      jiracreateissue: require('./converseai_modules/jiracreateissue')
+      jiracreateissue: require('./converseai_modules/jiracreateissue'),
+      jiragetissue: require('./converseai_modules/jiragetissue')
     });
 
 
