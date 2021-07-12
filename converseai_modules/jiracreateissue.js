@@ -56,38 +56,76 @@ module.exports = function jiracreateissue (app, body) {
   // }
   try{
     async function createIssue(req, res) {
-      var Http = require('machinepack-http');
-      var baseUrl ="https://jirasoft123.atlassian.net";
-      Http.sendHttpRequest({
-        url: '/rest/api/2/issue/',
-        baseUrl: baseUrl,
-        method: 'post',
-        params: {
-          "fields": {
-            "project": {
-              "key": req.body.columns.project
-            },
-            "summary": req.body.columns.summary,
-            "description": req.body.columns.description,
-            "issuetype": {
-              "name": req.body.columns.issuetype
+      try 
+      {
+        var baseUrl ="https://jirasoft123.atlassian.net/rest/api/2/issue/";
+        var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            //"Authorization": "Bearer"+ access_token;
+        };
+        var data={
+          params: {
+            "fields": {
+              "project": {
+                "key": req.body.columns.project
+              },
+              "summary": req.body.columns.summary,
+              "description": req.body.columns.description,
+              "issuetype": {
+                "name": req.body.columns.issuetype
+              }
             }
           }
-        },
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-         // "Authorization": "Bearer"+ requestAccessToken
-        },
-      }).exec({
-        serverError: function(result) {
-          res.send("server error" + JSON.stringify(result))
-        },
-        success: function(result) {
-          res.send("issue has been created successfully");
-        },
-      });
+        };
+        const response = await axios({
+            method: 'post',
+            url: baseUrl,
+            data: data,
+            headers: headers
+        });
+       
+        return await JSON.stringify(response);
+      }
+      catch (error) {
+        console.log('failed to save jira issue' + String(error));
+      }
     }
+    // async function createIssue(req, res) {
+    //   var Http = require('machinepack-http');
+    //  // Jira apps: https://api.atlassian.com/ex/jira/{cloudid}/{api}
+    //  // var baseUrl ="https://jirasoft123.atlassian.net";
+    //   var baseUrl ="https://jirasoft123.atlassian.net";
+    //   Http.sendHttpRequest({
+    //     url: '/rest/api/2/issue/',
+    //     baseUrl: baseUrl,
+    //     method: 'post',
+    //     params: {
+    //       "fields": {
+    //         "project": {
+    //           "key": req.body.columns.project
+    //         },
+    //         "summary": req.body.columns.summary,
+    //         "description": req.body.columns.description,
+    //         "issuetype": {
+    //           "name": req.body.columns.issuetype
+    //         }
+    //       }
+    //     },
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //      // "Authorization": "Bearer"+ requestAccessToken
+    //     },
+    //   }).exec({
+    //     serverError: function(result) {
+    //       res.send("server error" + JSON.stringify(result))
+    //     },
+    //     success: function(result) {
+    //       res.send("issue has been created successfully");
+    //     },
+    //   });
+    // }
   }
   catch (err) {
     var errString = "failed to create jira issue" + String(err);

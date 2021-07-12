@@ -17,23 +17,27 @@ const oauthUtil = require('./lib/oauthutil');
 */
 var onOAuthStart = function(app, body) {
   var registrationData = body.payload.registrationData;
-  var clientId = oauthUtil.getClientId(body);
+  //var clientId = oauthUtil.getClientId(body);
   var response = new OAuth2SetupDataResponse();
   var oauth2Uri = "https://auth.atlassian.com/authorize";
-  var audience="https://api.atlassian.com";
- // var clientId = "JnZngY1dNSdA6UzlgbuvplTodLff5G6F";
-  var clientId = clientId;
-  var authorizationScope ="read:jira-user write:jira-work read:jira-work";
+  var audience="api.atlassian.com";
+  var clientId = "JnZngY1dNSdA6UzlgbuvplTodLff5G6F";
+  //var clientId = clientId;
+  // var authorizationScope ="read:jira-user write:jira-work read:jira-work";
+  var authorizationScope ="read:jira-user write:jira-work read:jira-work manage:jira-data-provider";
   response.setOAuth2URI(oauth2Uri);
   response.setClientID(clientId);
   response.setScope(authorizationScope);
+  response.redirect_uri("https://cloudwave.bridge.smartsheet.com/");
   response.setState("");
+  response.response_type("code");
+  response.prompt("consent");
+  response.setComment("");
   response.setComment('<div>' +
     '<p>To link this workspace with a specific jira account, authenticate with the account.</p>' +
     '<p><cv-button cv-click="oauthUtil.authenticate()">Authenticate</cv-button></p></div>');
     response.setExtraParams(null);
- // response.response_type("code");
- // response.prompt("consent");
+ 
    app.send(Status.SUCCESS, response);
 }
 
@@ -42,14 +46,22 @@ var onOAuthStart = function(app, body) {
 */
 var onOAuthHandleCode = function(app, body) {
   var registrationData = body.payload.registrationData.app;
-  var clientId = oauthUtil.getClientId(body);
-  var oauthGrant = {
-    grant_type: 'authorization_code',
-    code: body.payload.code,
-    redirect_uri: body.payload.redirectURI,
-    client_id: clientId,
-    client_secret: registrationData.client_secret
+  //var clientId = oauthUtil.getClientId(body);
+
+  var oauthGrant ={
+  grant_type: "authorization_code",
+  client_id: "JnZngY1dNSdA6UzlgbuvplTodLff5G6F",
+  client_secret: "Oa2YJOrNQQSEOWyG3X8tmXy3BVMbESuQWH3WV6gIUe-XcrO8neOTt8ztXu677bzj",
+  code: body.payload.code,
+  redirect_uri: "https://cloudwave.bridge.smartsheet.com/"
   }
+  // var oauthGrant = {
+  //   grant_type: 'authorization_code',
+  //   code: body.payload.code,
+  //   redirect_uri: body.payload.redirectURI,
+  //   client_id: clientId,
+  //   client_secret: registrationData.client_secret
+  // }
 
   oauthUtil.requestAccessToken(oauthGrant)
     .then((data) => {
@@ -64,6 +76,7 @@ var onOAuthHandleCode = function(app, body) {
       app.client_id=clientId;
       app.client_secret=registrationData.client_secret;
       app.access_token=data.access_token;
+      oauthUtil.requestCloudid(data.access_token);
     })
     .catch(error => {
       errorHandler.handleError(error, app);
